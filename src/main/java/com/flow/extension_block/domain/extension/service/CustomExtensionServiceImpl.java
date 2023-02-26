@@ -38,7 +38,20 @@ public class CustomExtensionServiceImpl implements CustomExtensionService {
     }
 
     @Override
+    @Transactional
+    public void delete(Integer extensionSeq) {
+        CustomExtension customExtension = customExtensionRepository.findBySeq(extensionSeq)
+                .orElseThrow(() -> new IllegalStateException("이미 삭제된 확장자입니다."));
+        customExtensionRepository.delete(customExtension);
+    }
+
+    @Override
     public boolean isExist(String extensionName) {
         return customExtensionRepository.existsByExtensionName(extensionName);
+    }
+
+    @Override
+    public boolean isExist(Integer extensionSeq) {
+        return customExtensionRepository.existsBySeq(extensionSeq);
     }
 }

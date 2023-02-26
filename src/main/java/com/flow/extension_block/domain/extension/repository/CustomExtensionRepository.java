@@ -6,13 +6,19 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
 import java.util.List;
+import java.util.Optional;
 
 public interface CustomExtensionRepository extends JpaRepository<CustomExtension, Integer> {
 
     @Query("SELECT COUNT(c) > 0 FROM CustomExtension c WHERE c.extensionName = :extensionName AND c.isDeleted = FALSE")
     boolean existsByExtensionName(@Param("extensionName") String extensionName);
 
+    @Query("SELECT COUNT(c) > 0 FROM CustomExtension c WHERE c.seq = :extensionSeq AND c.isDeleted = FALSE")
+    boolean existsBySeq(@Param("extensionSeq") Integer extensionSeq);
+
     @Query("SELECT c FROM CustomExtension c WHERE c.isDeleted = FALSE")
     List<CustomExtension> findCustomExtensions();
 
+    @Query("SELECT c FROM CustomExtension c where c.seq = :extensionSeq AND c.isDeleted = FALSE")
+    Optional<CustomExtension> findBySeq(@Param("extensionSeq") Integer extensionSeq);
 }
