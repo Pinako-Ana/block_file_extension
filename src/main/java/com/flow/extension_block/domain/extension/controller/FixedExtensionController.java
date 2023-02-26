@@ -20,7 +20,7 @@ import java.util.List;
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/api/v1/extensions")
-public class ExtensionController {
+public class FixedExtensionController {
 
     private final FixedExtensionService fixedExtensionService;
 
