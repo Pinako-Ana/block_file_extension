@@ -1,5 +1,6 @@
 package com.flow.extension_block.domain.extension.service;
 
+import com.flow.extension_block.domain.extension.entity.FixedExtension;
 import com.flow.extension_block.domain.extension.repository.FixedRepository;
 import com.flow.extension_block.domain.extension.service.dto.FixedExtensionsDto;
 import lombok.RequiredArgsConstructor;
@@ -26,5 +27,14 @@ public class FixedExtensionServiceImpl implements FixedExtensionService {
                         .extensionName(fixedExtension.getExtensionName())
                         .isChecked(fixedExtension.isChecked()).build())
                 .collect(Collectors.toList());
+    }
+
+    @Override
+    @Transactional
+    public Integer changeExtensionState(Integer extensionSeq) {
+        FixedExtension fixedExtension = fixedRepository.findBySeq(extensionSeq)
+                .orElseThrow(() -> new IllegalStateException("서버 에러 입니다."));
+        fixedExtension.changeState();
+        return fixedExtension.getSeq();
     }
 }
