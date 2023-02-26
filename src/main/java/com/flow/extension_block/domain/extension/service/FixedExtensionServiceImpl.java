@@ -1,7 +1,7 @@
 package com.flow.extension_block.domain.extension.service;
 
 import com.flow.extension_block.domain.extension.entity.FixedExtension;
-import com.flow.extension_block.domain.extension.repository.FixedRepository;
+import com.flow.extension_block.domain.extension.repository.FixedExtensionRepository;
 import com.flow.extension_block.domain.extension.service.dto.FixedExtensionsDto;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -17,11 +17,11 @@ import java.util.stream.Collectors;
 @Transactional(readOnly = true)
 public class FixedExtensionServiceImpl implements FixedExtensionService {
 
-    private final FixedRepository fixedRepository;
+    private final FixedExtensionRepository fixedExtensionRepository;
 
     @Override
     public List<FixedExtensionsDto> getFixedExtensions() {
-        return fixedRepository.findFixedExtensions().stream().map(fixedExtension -> FixedExtensionsDto
+        return fixedExtensionRepository.findFixedExtensions().stream().map(fixedExtension -> FixedExtensionsDto
                         .builder()
                         .seq(fixedExtension.getSeq())
                         .extensionName(fixedExtension.getExtensionName())
@@ -32,7 +32,7 @@ public class FixedExtensionServiceImpl implements FixedExtensionService {
     @Override
     @Transactional
     public Integer changeExtensionState(Integer extensionSeq) {
-        FixedExtension fixedExtension = fixedRepository.findBySeq(extensionSeq)
+        FixedExtension fixedExtension = fixedExtensionRepository.findBySeq(extensionSeq)
                 .orElseThrow(() -> new IllegalStateException("서버 에러 입니다."));
         fixedExtension.changeState();
         return fixedExtension.getSeq();
