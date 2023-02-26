@@ -30,4 +30,8 @@ public class FixedExtension {
         this.isChecked = isChecked;
         this.isDeleted = isDeleted;
     }
+
+    public void changeState() {
+        this.isChecked = !this.isChecked;
+    }
 }

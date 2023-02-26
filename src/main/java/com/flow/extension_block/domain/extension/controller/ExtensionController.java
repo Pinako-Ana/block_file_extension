@@ -9,14 +9,10 @@ import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
-
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseStatus;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -46,12 +42,38 @@ public class ExtensionController {
     })
     @GetMapping("/fix")
     @ResponseStatus(HttpStatus.OK)
-    public BaseResponseDto<Object> getFixedExtensions() {
+    public BaseResponseDto<List<FixedExtensionsDto>> getFixedExtensions() {
 
         List<FixedExtensionsDto> fixedExtensionsDto = fixedExtensionService.getFixedExtensions();
 
-        return BaseResponseDto.builder()
+        return BaseResponseDto.<List<FixedExtensionsDto>>builder()
                 .data(fixedExtensionsDto)
+                .build();
+    }
+
+
+    @Operation(
+            summary = "고정 확장자 상태 변경 API",
+            description = "선택한 고정 확장자의 체크 상태를 변경합니다.",
+            tags = {"fixed_extension"}
+    )
+    @ApiResponses(value = {
+            @ApiResponse(
+                    responseCode = "200",
+                    description = "고정 확장자 변경 성공",
+                    content = @Content(schema = @Schema(implementation = BaseResponseDto.class))),
+            @ApiResponse(
+                    responseCode = "500",
+                    description = "서버 에러",
+                    content = @Content(schema = @Schema(implementation = BaseResponseDto.class)))
+    })
+    @PatchMapping("/fix/{extensionSeq}/state")
+    @ResponseStatus(HttpStatus.OK)
+    public BaseResponseDto<Void> changeExtensionState(@PathVariable Integer extensionSeq) {
+
+        fixedExtensionService.changeExtensionState(extensionSeq);
+
+        return BaseResponseDto.<Void>builder()
                 .build();
     }
 

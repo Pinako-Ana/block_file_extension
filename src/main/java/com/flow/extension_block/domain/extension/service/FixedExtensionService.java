@@ -6,4 +6,6 @@ import java.util.List;
 
 public interface FixedExtensionService {
     List<FixedExtensionsDto> getFixedExtensions();
+
+    Integer changeExtensionState(Integer extensionSeq);
 }
