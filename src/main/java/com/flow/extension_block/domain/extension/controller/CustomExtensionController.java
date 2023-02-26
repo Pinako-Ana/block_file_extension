@@ -9,9 +9,12 @@ import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.Size;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -20,6 +23,7 @@ import java.util.List;
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/api/v1/extensions")
+@Validated
 public class CustomExtensionController {
 
     private final CustomExtensionService customExtensionService;
@@ -35,6 +39,10 @@ public class CustomExtensionController {
                     description = "커스텀 확장자 추가 성공",
                     content = @Content(schema = @Schema(implementation = BaseResponseDto.class))),
             @ApiResponse(
+                    responseCode = "400",
+                    description = "20글자가 넘는 확장자는 추가 할 수 없습니다.",
+                    content = @Content(schema = @Schema(implementation = BaseResponseDto.class))),
+            @ApiResponse(
                     responseCode = "409",
                     description = "커스텀 확장자 중복 에러",
                     content = @Content(schema = @Schema(implementation = BaseResponseDto.class))),
@@ -45,7 +53,7 @@ public class CustomExtensionController {
     })
     @PostMapping("/custom/{extensionName}")
     @ResponseStatus(HttpStatus.OK)
-    public BaseResponseDto<Void> saveCustomExtension(@PathVariable String extensionName) {
+    public BaseResponseDto<Void> saveCustomExtension(@PathVariable @NotBlank @Size(max = 20) String extensionName) {
         if (customExtensionService.isExist(extensionName)) {
             throw new IllegalStateException("이미 있는 확장자입니다.");
         }
