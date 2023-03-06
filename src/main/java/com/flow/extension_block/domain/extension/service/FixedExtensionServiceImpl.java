@@ -15,11 +15,9 @@ import java.util.stream.Collectors;
 @Service
 @RequiredArgsConstructor
 @Transactional(readOnly = true)
-public class FixedExtensionServiceImpl implements FixedExtensionService {
+public class FixedExtensionServiceImpl {
 
     private final FixedExtensionRepository fixedExtensionRepository;
-
-    @Override
     public List<FixedExtensionsDto> getFixedExtensions() {
         return fixedExtensionRepository.findFixedExtensions().stream().map(fixedExtension -> FixedExtensionsDto
                         .builder()
@@ -29,7 +27,6 @@ public class FixedExtensionServiceImpl implements FixedExtensionService {
                 .collect(Collectors.toList());
     }
 
-    @Override
     @Transactional
     public Integer changeExtensionState(Integer extensionSeq) {
         FixedExtension fixedExtension = fixedExtensionRepository.findBySeq(extensionSeq)
