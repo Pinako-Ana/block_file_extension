@@ -27,4 +27,8 @@ public class CustomExtension {
         this.extensionName = extensionName;
         this.isDeleted = isDeleted;
     }
+
+    public void changeDeleteState() {
+        this.isDeleted = !this.isDeleted;
+    }
 }
