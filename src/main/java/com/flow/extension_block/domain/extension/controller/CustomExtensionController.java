@@ -1,7 +1,7 @@
 package com.flow.extension_block.domain.extension.controller;
 
 
-import com.flow.extension_block.domain.extension.service.CustomExtensionService;
+import com.flow.extension_block.domain.extension.service.CustomExtensionServiceImpl;
 import com.flow.extension_block.domain.extension.service.dto.CustomExtensionDto;
 import com.flow.extension_block.global.entity.BaseResponseDto;
 import io.swagger.v3.oas.annotations.Operation;
@@ -26,7 +26,7 @@ import java.util.List;
 @Validated
 public class CustomExtensionController {
 
-    private final CustomExtensionService customExtensionService;
+    private final CustomExtensionServiceImpl customExtensionService;
 
     @Operation(
             summary = "커스텀 확장자 추가 API",
@@ -57,7 +57,7 @@ public class CustomExtensionController {
         if (customExtensionService.isExist(extensionName)) {
             throw new IllegalStateException("이미 있는 확장자입니다.");
         }
-        if(customExtensionService.getCustomExtensions().size() >= 200) {
+        if (customExtensionService.getCustomExtensions().size() >= 200) {
             throw new IllegalStateException("커스텀 확장자 개수는 200을 넘길 수 없습니다.");
         }
         customExtensionService.save(extensionName);

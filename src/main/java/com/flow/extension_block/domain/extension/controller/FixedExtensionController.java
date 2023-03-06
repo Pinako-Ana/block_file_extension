@@ -1,7 +1,7 @@
 package com.flow.extension_block.domain.extension.controller;
 
 
-import com.flow.extension_block.domain.extension.service.FixedExtensionService;
+import com.flow.extension_block.domain.extension.service.FixedExtensionServiceImpl;
 import com.flow.extension_block.domain.extension.service.dto.FixedExtensionsDto;
 import com.flow.extension_block.global.entity.BaseResponseDto;
 import io.swagger.v3.oas.annotations.Operation;
@@ -22,7 +22,7 @@ import java.util.List;
 @RequestMapping("/api/v1/extensions")
 public class FixedExtensionController {
 
-    private final FixedExtensionService fixedExtensionService;
+    private final FixedExtensionServiceImpl fixedExtensionService;
 
 
     @Operation(
