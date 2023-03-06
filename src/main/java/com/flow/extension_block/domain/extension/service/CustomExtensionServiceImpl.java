@@ -20,8 +20,8 @@ public class CustomExtensionServiceImpl {
 
     @Transactional
     public Integer save(String extensionName) {
-        if (customExtensionRepository.isDeletedCustom(extensionName)) {
-            CustomExtension customExtension = customExtensionRepository.findByExtensionNameCustom(extensionName)
+        if (customExtensionRepository.isDeleted(extensionName)) {
+            CustomExtension customExtension = customExtensionRepository.findByDeletedExtensionName(extensionName)
                     .orElseThrow(() -> new IllegalStateException("DB에 이름에 해당하는 확장자가 존재하지 않습니다."));
             customExtension.changeDeleteState();
             return customExtension.getSeq();
