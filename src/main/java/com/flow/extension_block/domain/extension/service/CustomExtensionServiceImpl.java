@@ -18,7 +18,14 @@ import java.util.stream.Collectors;
 public class CustomExtensionServiceImpl {
     private final CustomExtensionRepository customExtensionRepository;
 
+    @Transactional
     public Integer save(String extensionName) {
+        if (customExtensionRepository.isDeletedCustom(extensionName)) {
+            CustomExtension customExtension = customExtensionRepository.findByExtensionNameCustom(extensionName)
+                    .orElseThrow(() -> new IllegalStateException("DB에 이름에 해당하는 확장자가 존재하지 않습니다."));
+            customExtension.changeDeleteState();
+            return customExtension.getSeq();
+        }
         return customExtensionRepository.save(CustomExtension
                 .builder()
                 .extensionName(extensionName)
@@ -39,7 +46,7 @@ public class CustomExtensionServiceImpl {
     public void delete(Integer extensionSeq) {
         CustomExtension customExtension = customExtensionRepository.findBySeq(extensionSeq)
                 .orElseThrow(() -> new IllegalStateException("이미 삭제된 확장자입니다."));
-        customExtensionRepository.delete(customExtension);
+        customExtension.changeDeleteState();
     }
 
     public boolean isExist(String extensionName) {
