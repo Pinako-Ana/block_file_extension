@@ -15,10 +15,9 @@ import java.util.stream.Collectors;
 @Service
 @RequiredArgsConstructor
 @Transactional(readOnly = true)
-public class CustomExtensionServiceImpl implements CustomExtensionService {
+public class CustomExtensionServiceImpl {
     private final CustomExtensionRepository customExtensionRepository;
 
-    @Override
     public Integer save(String extensionName) {
         return customExtensionRepository.save(CustomExtension
                 .builder()
@@ -26,7 +25,6 @@ public class CustomExtensionServiceImpl implements CustomExtensionService {
                 .build()).getSeq();
     }
 
-    @Override
     public List<CustomExtensionDto> getCustomExtensions() {
         List<CustomExtension> customExtensions = customExtensionRepository.findCustomExtensions();
 
@@ -37,7 +35,6 @@ public class CustomExtensionServiceImpl implements CustomExtensionService {
                 .build()).collect(Collectors.toList());
     }
 
-    @Override
     @Transactional
     public void delete(Integer extensionSeq) {
         CustomExtension customExtension = customExtensionRepository.findBySeq(extensionSeq)
@@ -45,12 +42,11 @@ public class CustomExtensionServiceImpl implements CustomExtensionService {
         customExtensionRepository.delete(customExtension);
     }
 
-    @Override
     public boolean isExist(String extensionName) {
         return customExtensionRepository.existsByExtensionName(extensionName);
     }
 
-    @Override
+
     public boolean isExist(Integer extensionSeq) {
         return customExtensionRepository.existsBySeq(extensionSeq);
     }
