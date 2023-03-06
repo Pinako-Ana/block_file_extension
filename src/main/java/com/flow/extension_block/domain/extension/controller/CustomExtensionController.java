@@ -111,7 +111,7 @@ public class CustomExtensionController {
                     description = "서버 에러",
                     content = @Content(schema = @Schema(implementation = BaseResponseDto.class)))
     })
-    @DeleteMapping("/custom/{extensionSeq}")
+    @PatchMapping("/custom/{extensionSeq}")
     @ResponseStatus(HttpStatus.OK)
     public BaseResponseDto<Void> deleteCustomExtension(@PathVariable Integer extensionSeq) {
         if (!customExtensionService.isExist(extensionSeq)) {
