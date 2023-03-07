@@ -27,4 +27,8 @@ public interface CustomExtensionRepository extends JpaRepository<CustomExtension
 
     @Query("SELECT c FROM CustomExtension c WHERE c.extensionName = :extensionName AND c.isDeleted = TRUE")
     Optional<CustomExtension> findByDeletedExtensionName(@Param("extensionName") String extensionName);
+
+    @Query("SELECT COUNT(c) FROM CustomExtension c WHERE c.isDeleted = FALSE")
+    Integer getCustomExtensionSize();
+
 }

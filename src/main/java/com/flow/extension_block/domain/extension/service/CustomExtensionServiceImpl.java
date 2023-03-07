@@ -57,4 +57,8 @@ public class CustomExtensionServiceImpl {
     public boolean isExist(Integer extensionSeq) {
         return customExtensionRepository.existsBySeq(extensionSeq);
     }
+
+    public Integer getCustomExtensionsSize() {
+        return customExtensionRepository.getCustomExtensionSize();
+    }
 }
